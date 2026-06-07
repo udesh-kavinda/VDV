@@ -17,7 +17,7 @@ export function DocumentCard({
   document: VehicleDocument
   links: DocumentLink[]
 }) {
-  const label = document.label ?? document.type.replace('_', ' ')
+  const label = document.label ?? document.type.replaceAll('_', ' ')
 
   return (
     <div className="bg-white rounded-xl border border-border p-4">

@@ -51,12 +51,14 @@ Deno.serve(async () => {
       const label = doc.label ?? doc.type.replace('_', ' ')
       const body = `${label} expires in ${days} day${days > 1 ? 's' : ''}`
 
+      let successCount = 0
       for (const sub of subs) {
         try {
           await webpush.sendNotification(
             sub.subscription,
             JSON.stringify({ title: 'Vehicle Vault', body })
           )
+          successCount++
         } catch (err: any) {
           if (err.statusCode === 410 || err.statusCode === 404) {
             await supabase.from('push_subscriptions').delete().eq('id', sub.id)
@@ -64,11 +66,13 @@ Deno.serve(async () => {
         }
       }
 
-      await supabase.from('notification_log').insert({
-        document_id: doc.id,
-        threshold_days: days,
-        expires_at_snapshot: doc.expires_at,
-      })
+      if (successCount > 0) {
+        await supabase.from('notification_log').insert({
+          document_id: doc.id,
+          threshold_days: days,
+          expires_at_snapshot: doc.expires_at,
+        })
+      }
     }
   }
 

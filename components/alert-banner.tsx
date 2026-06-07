@@ -15,11 +15,14 @@ export function AlertBanner({ documents }: { documents: VehicleDocument[] }) {
         ⚠ {urgent.length} item{urgent.length > 1 ? 's' : ''} need attention
       </p>
       <ul className="space-y-0.5">
-        {urgent.slice(0, 3).map(d => (
-          <li key={d.id} className="text-xs text-amber-600">
-            · {d.label ?? d.type} — {daysUntil(d.expires_at) <= 0 ? 'expired' : `${daysUntil(d.expires_at)} days`}
-          </li>
-        ))}
+        {urgent.slice(0, 3).map(d => {
+          const days = daysUntil(d.expires_at)
+          return (
+            <li key={d.id} className="text-xs text-amber-600">
+              · {d.label ?? d.type} — {days <= 0 ? 'expired' : `${days} days`}
+            </li>
+          )
+        })}
         {urgent.length > 3 && (
           <li className="text-xs text-amber-500">+ {urgent.length - 3} more</li>
         )}

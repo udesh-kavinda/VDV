@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { notFound } from 'next/navigation'
 import { ArrowLeft, Pencil, Plus } from 'lucide-react'
 import { getVehicle } from '@/lib/vehicles'
 import { getDocuments } from '@/lib/documents'
@@ -8,7 +9,12 @@ import { AlertBanner } from '@/components/alert-banner'
 
 export default async function VehicleDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
-  const vehicle = await getVehicle(id)
+  let vehicle
+  try {
+    vehicle = await getVehicle(id)
+  } catch {
+    notFound()
+  }
   const documents = await getDocuments(id)
   const docsWithLinks = await Promise.all(
     documents.map(async d => ({ document: d, links: await getLinks(d.id) }))
