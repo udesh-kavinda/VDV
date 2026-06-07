@@ -1,4 +1,4 @@
--- updated_at trigger function (reused across all tables)
+-- updated_at trigger function
 create or replace function set_updated_at()
 returns trigger language plpgsql as $$
 begin

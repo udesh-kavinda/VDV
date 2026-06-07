@@ -1,7 +1,14 @@
--- Helper function: insert preset links for a newly created document
 create or replace function insert_preset_links(doc_id uuid, doc_type text)
 returns void language plpgsql security definer as $$
 begin
+  -- Ownership check: only the document owner can insert preset links
+  if not exists (
+    select 1 from documents
+    where id = doc_id and user_id = (select auth.uid())
+  ) then
+    raise exception 'Not authorized';
+  end if;
+
   case doc_type
     when 'insurance' then
       insert into document_links(document_id, label, url, is_preset) values
