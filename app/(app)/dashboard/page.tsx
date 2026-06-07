@@ -6,6 +6,7 @@ import { getLinks } from '@/lib/links'
 import { VehicleCard } from '@/components/vehicle-card'
 import { AlertBanner } from '@/components/alert-banner'
 import { DocumentCard } from '@/components/document-card'
+import { PushPrompt } from '@/components/push-prompt'
 
 export default async function DashboardPage() {
   const vehicles = await getVehicles()
@@ -35,6 +36,7 @@ export default async function DashboardPage() {
 
       {/* Alert banner */}
       <AlertBanner documents={allDocsForBanner} />
+      <PushPrompt />
 
       {/* Vehicle list */}
       <p className="px-4 pb-2 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">Your vehicles</p>
