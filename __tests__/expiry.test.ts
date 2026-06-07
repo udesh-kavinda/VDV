@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { getExpiryStatus, daysUntil } from '@/lib/expiry'
 
 describe('daysUntil', () => {
@@ -6,6 +6,8 @@ describe('daysUntil', () => {
     vi.useFakeTimers()
     vi.setSystemTime(new Date('2026-06-06'))
   })
+
+  afterEach(() => vi.useRealTimers())
 
   it('returns positive days for future date', () => {
     expect(daysUntil('2026-07-06')).toBe(30)
@@ -26,6 +28,8 @@ describe('getExpiryStatus', () => {
     vi.setSystemTime(new Date('2026-06-06'))
   })
 
+  afterEach(() => vi.useRealTimers())
+
   it('returns expired for past date', () => {
     expect(getExpiryStatus('2026-06-05')).toBe('expired')
   })
@@ -40,5 +44,17 @@ describe('getExpiryStatus', () => {
 
   it('returns ok for >30 days', () => {
     expect(getExpiryStatus('2026-07-10')).toBe('ok')
+  })
+
+  it('returns warn for exactly 8 days (warn/danger boundary)', () => {
+    expect(getExpiryStatus('2026-06-14')).toBe('warn')
+  })
+
+  it('returns warn for exactly 30 days (warn/ok boundary)', () => {
+    expect(getExpiryStatus('2026-07-06')).toBe('warn')
+  })
+
+  it('returns ok for exactly 31 days', () => {
+    expect(getExpiryStatus('2026-07-07')).toBe('ok')
   })
 })
