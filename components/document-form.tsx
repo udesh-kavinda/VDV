@@ -18,9 +18,13 @@ const DOC_TYPES: { value: DocumentType; label: string; icon: string }[] = [
 export function DocumentForm({
   initial,
   onSubmit,
+  hideSubmit = false,
+  formId,
 }: {
   initial?: { type: DocumentType; label?: string; expires_at: string; notes?: string }
   onSubmit: (data: { type: DocumentType; label?: string; expires_at: string; notes?: string }) => Promise<void>
+  hideSubmit?: boolean
+  formId?: string
 }) {
   const [type, setType] = useState<DocumentType>(initial?.type ?? 'insurance')
   const [label, setLabel] = useState(initial?.label ?? '')
@@ -36,19 +40,28 @@ export function DocumentForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5">
+    <form id={formId} onSubmit={handleSubmit} className="space-y-5">
       <div>
         <Label className="text-xs uppercase tracking-wider text-muted-foreground mb-2 block">Type</Label>
         <div className="grid grid-cols-3 gap-2">
           {DOC_TYPES.map(t => (
             <button
               key={t.value} type="button" onClick={() => setType(t.value)}
-              className={`rounded-xl p-3 flex flex-col items-center gap-1 text-xs font-medium transition-colors ${
-                type === t.value ? 'bg-foreground text-background' : 'bg-secondary hover:bg-secondary/70'
+              className={`relative rounded-xl p-3 flex flex-col items-center gap-1 text-xs font-medium transition-all duration-150 active:scale-90 ${
+                type === t.value
+                  ? 'bg-[#2d2d2d] text-white ring-2 ring-[#2d2d2d] ring-offset-2 scale-105 shadow-md'
+                  : 'bg-secondary hover:bg-secondary/70'
               }`}
             >
               <span className="text-xl">{t.icon}</span>
               {t.label}
+              {type === t.value && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                    <path d="M1.5 4L3 5.5L6.5 2" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -71,9 +84,11 @@ export function DocumentForm({
         <Textarea id="notes" rows={3} placeholder="Policy number, provider, etc." value={notes} onChange={e => setNotes(e.target.value)} />
       </div>
 
-      <Button type="submit" className="w-full" disabled={loading}>
-        {loading ? 'Saving…' : 'Save Document'}
-      </Button>
+      {!hideSubmit && (
+        <Button type="submit" size="lg" className="w-full h-12 text-base rounded-xl" disabled={loading}>
+          {loading ? 'Saving…' : 'Save Document'}
+        </Button>
+      )}
     </form>
   )
 }

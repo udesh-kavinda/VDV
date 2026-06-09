@@ -34,11 +34,18 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
             <p className="text-xs text-muted-foreground">{vehicle.plate}</p>
           </div>
         </div>
-        <Link href={`/vehicles/${id}/edit`}>
-          <button className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
-            <Pencil className="w-4 h-4" />
-          </button>
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link href={`/documents/new?vehicleId=${id}`}>
+            <button className="w-8 h-8 rounded-full bg-[#2d2d2d] flex items-center justify-center active:scale-90 transition-transform">
+              <Plus className="w-4 h-4 text-white" />
+            </button>
+          </Link>
+          <Link href={`/vehicles/${id}/edit`}>
+            <button className="w-8 h-8 rounded-full bg-secondary flex items-center justify-center">
+              <Pencil className="w-4 h-4" />
+            </button>
+          </Link>
+        </div>
       </div>
 
       <AlertBanner documents={documents} />
@@ -50,13 +57,7 @@ export default async function VehicleDetailPage({ params }: { params: Promise<{ 
         ))}
       </div>
 
-      <div className="px-4 mt-3">
-        <Link href={`/documents/new?vehicleId=${id}`}>
-          <button className="w-full border-2 border-dashed border-border rounded-2xl py-3 text-sm text-muted-foreground flex items-center justify-center gap-2">
-            <Plus className="w-4 h-4" /> Add Document
-          </button>
-        </Link>
-      </div>
+      <div className="pb-6" />
     </div>
   )
 }

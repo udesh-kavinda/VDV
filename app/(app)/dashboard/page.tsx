@@ -1,6 +1,5 @@
-import Link from 'next/link'
-import { Plus } from 'lucide-react'
 import { getVehicles } from '@/lib/vehicles'
+import { Fab } from '@/components/fab'
 import { getDocuments, getUserDocuments } from '@/lib/documents'
 import { getLinks } from '@/lib/links'
 import { VehicleCard } from '@/components/vehicle-card'
@@ -31,7 +30,7 @@ export default async function DashboardPage() {
       {/* Header */}
       <div className="flex items-center justify-between px-4 pb-4">
         <h1 className="text-2xl font-bold tracking-tight">My Vehicles</h1>
-        <div className="w-9 h-9 rounded-full bg-secondary flex items-center justify-center text-base">👤</div>
+        <Fab />
       </div>
 
       {/* Alert banner */}
@@ -46,14 +45,6 @@ export default async function DashboardPage() {
         ))}
       </div>
 
-      {/* Add vehicle */}
-      <div className="px-4 mt-3">
-        <Link href="/vehicles/new">
-          <button className="w-full border-2 border-dashed border-border rounded-2xl py-3 text-sm text-muted-foreground flex items-center justify-center gap-2 hover:border-foreground/20 transition-colors">
-            <Plus className="w-4 h-4" /> Add Vehicle
-          </button>
-        </Link>
-      </div>
 
       {/* User-level docs (driver's licence etc) */}
       {userDocsWithLinks.length > 0 && (
@@ -67,13 +58,7 @@ export default async function DashboardPage() {
         </>
       )}
 
-      <div className="px-4 mt-3 mb-4">
-        <Link href="/documents/new">
-          <button className="w-full border-2 border-dashed border-border rounded-2xl py-3 text-sm text-muted-foreground flex items-center justify-center gap-2 hover:border-foreground/20 transition-colors">
-            <Plus className="w-4 h-4" /> Add Personal Document
-          </button>
-        </Link>
-      </div>
+      <div className="pb-6" />
     </div>
   )
 }

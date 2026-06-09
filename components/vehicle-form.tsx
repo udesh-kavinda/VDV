@@ -34,11 +34,20 @@ export function VehicleForm({
             <button
               key={i} type="button"
               onClick={() => setIcon(i)}
-              className={`w-10 h-10 rounded-xl text-xl flex items-center justify-center transition-colors ${
-                icon === i ? 'bg-foreground text-background' : 'bg-secondary hover:bg-secondary/70'
+              className={`relative w-11 h-11 rounded-xl text-xl flex items-center justify-center transition-all duration-150 active:scale-90 ${
+                icon === i
+                  ? 'bg-[#2d2d2d] ring-2 ring-[#2d2d2d] ring-offset-2 scale-105 shadow-md'
+                  : 'bg-secondary hover:bg-secondary/70'
               }`}
             >
               {i}
+              {icon === i && (
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-green-500 rounded-full flex items-center justify-center">
+                  <svg width="8" height="8" viewBox="0 0 8 8" fill="none">
+                    <path d="M1.5 4L3 5.5L6.5 2" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </span>
+              )}
             </button>
           ))}
         </div>
@@ -51,7 +60,7 @@ export function VehicleForm({
         <Label htmlFor="plate">Number Plate</Label>
         <Input id="plate" required placeholder="e.g. ABC 1234" value={plate} onChange={e => setPlate(e.target.value)} />
       </div>
-      <Button type="submit" className="w-full" disabled={loading}>
+      <Button type="submit" size="lg" className="w-full h-12 text-base rounded-xl" disabled={loading}>
         {loading ? 'Saving…' : 'Save Vehicle'}
       </Button>
     </form>
