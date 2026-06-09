@@ -21,8 +21,8 @@ export function DocumentForm({
   hideSubmit = false,
   formId,
 }: {
-  initial?: { type: DocumentType; label?: string; expires_at: string; notes?: string }
-  onSubmit: (data: { type: DocumentType; label?: string; expires_at: string; notes?: string }) => Promise<void>
+  initial?: { type: DocumentType; label?: string; expires_at: string | null; notes?: string }
+  onSubmit: (data: { type: DocumentType; label?: string; expires_at: string | null; notes?: string }) => Promise<void>
   hideSubmit?: boolean
   formId?: string
 }) {
@@ -35,7 +35,7 @@ export function DocumentForm({
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     setLoading(true)
-    await onSubmit({ type, label: label || undefined, expires_at: expiresAt, notes: notes || undefined })
+    await onSubmit({ type, label: label || undefined, expires_at: type === 'fuel_pass' ? null : expiresAt, notes: notes || undefined })
     setLoading(false)
   }
 
@@ -74,10 +74,12 @@ export function DocumentForm({
         </div>
       )}
 
-      <div className="space-y-1">
-        <Label htmlFor="expires">Expiry Date</Label>
-        <Input id="expires" type="date" required value={expiresAt} onChange={e => setExpiresAt(e.target.value)} />
-      </div>
+      {type !== 'fuel_pass' && (
+        <div className="space-y-1">
+          <Label htmlFor="expires">Expiry Date</Label>
+          <Input id="expires" type="date" required value={expiresAt} onChange={e => setExpiresAt(e.target.value)} />
+        </div>
+      )}
 
       <div className="space-y-1">
         <Label htmlFor="notes">Notes <span className="text-muted-foreground">(optional)</span></Label>

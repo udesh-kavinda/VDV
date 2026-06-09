@@ -83,7 +83,7 @@ function NewDocumentContent() {
     // 1. Create document
     const { data: doc } = await supabase
       .from('documents')
-      .insert({ type, label: label || undefined, expires_at: expiresAt, notes: notes || undefined, vehicle_id: vehicleId ?? null, user_id: user!.id })
+      .insert({ type, label: label || undefined, expires_at: type === 'fuel_pass' ? null : expiresAt, notes: notes || undefined, vehicle_id: vehicleId ?? null, user_id: user!.id })
       .select('id').single()
 
     if (!doc) { setLoading(false); return }
@@ -169,10 +169,12 @@ function NewDocumentContent() {
         )}
 
         {/* ── Expiry date ── */}
-        <div className="space-y-1">
-          <Label htmlFor="expires">Expiry Date</Label>
-          <Input id="expires" type="date" required value={expiresAt} onChange={e => setExpiresAt(e.target.value)} />
-        </div>
+        {type !== 'fuel_pass' && (
+          <div className="space-y-1">
+            <Label htmlFor="expires">Expiry Date</Label>
+            <Input id="expires" type="date" required value={expiresAt} onChange={e => setExpiresAt(e.target.value)} />
+          </div>
+        )}
 
         {/* ── Notes ── */}
         <div className="space-y-1">

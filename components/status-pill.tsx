@@ -15,7 +15,12 @@ const labels: Record<string, (days: number) => string> = {
   expired: () => 'Expired',
 }
 
-export function StatusPill({ expiresAt }: { expiresAt: string }) {
+export function StatusPill({ expiresAt }: { expiresAt: string | null }) {
+  if (!expiresAt) return (
+    <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-secondary text-muted-foreground border border-border">
+      No expiry
+    </span>
+  )
   const status = getExpiryStatus(expiresAt)
   const days = daysUntil(expiresAt)
   return (

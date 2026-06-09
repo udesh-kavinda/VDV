@@ -125,7 +125,9 @@ export default function DocumentDetailPage({ params }: { params: Promise<{ id: s
           <div className="flex items-center justify-between px-4 py-3">
             <p className="text-xs text-muted-foreground uppercase tracking-wider font-semibold">Expiry</p>
             <p className="text-sm font-semibold">
-              {new Date(doc.expires_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+              {doc.expires_at
+                ? new Date(doc.expires_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })
+                : 'No expiry date'}
             </p>
           </div>
           {doc.notes && (

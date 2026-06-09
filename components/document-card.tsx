@@ -34,7 +34,7 @@ export function DocumentCard({
             {ICONS[document.type] ?? '📌'} {label.charAt(0).toUpperCase() + label.slice(1)}
           </p>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Expires {new Date(document.expires_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}
+            {document.expires_at ? `Expires ${new Date(document.expires_at).toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' })}` : 'No expiry date'}
           </p>
           {document.notes && (
             <p className="text-xs text-muted-foreground mt-1 line-clamp-2">{document.notes}</p>
