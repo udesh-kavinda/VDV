@@ -8,14 +8,23 @@ export const metadata: Metadata = {
   title: 'Vehicle Vault',
   description: 'Track your vehicle documents',
   manifest: '/manifest.json',
-  appleWebApp: { capable: true, statusBarStyle: 'default', title: 'Vehicle Vault' },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'Vehicle Vault',
+    startupImage: '/icons/icon-512.png',
+  },
+  icons: {
+    apple: '/icons/icon-192.png',
+  },
 }
 
 export const viewport: Viewport = {
-  themeColor: '#faf8f5',
+  themeColor: '#1a1a1a',
   width: 'device-width',
   initialScale: 1,
   maximumScale: 1,
+  userScalable: false,
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
