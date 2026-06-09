@@ -26,12 +26,16 @@ export async function proxy(request: NextRequest) {
   // IMPORTANT: use getUser() not getSession() — validates JWT server-side
   const { data: { user } } = await supabase.auth.getUser()
 
-  const isAuthRoute = request.nextUrl.pathname.startsWith('/login')
+  const { pathname } = request.nextUrl
+  const isAuthRoute = pathname.startsWith('/login')
+    || pathname.startsWith('/forgot-password')
+    || pathname.startsWith('/reset-password')
+    || pathname.startsWith('/auth/callback')
 
   if (!user && !isAuthRoute) {
     return NextResponse.redirect(new URL('/login', request.url))
   }
-  if (user && isAuthRoute) {
+  if (user && pathname === '/login') {
     return NextResponse.redirect(new URL('/dashboard', request.url))
   }
 

@@ -136,6 +136,13 @@ export default function LoginPage() {
               )}
             </button>
           </form>
+          {mode === 'signin' && (
+            <div className="text-center mt-3">
+              <a href="/forgot-password" className="text-xs text-[#9a8f84] hover:text-[#2d2d2d] underline underline-offset-2 transition-colors">
+                Forgot password?
+              </a>
+            </div>
+          )}
           </>
           )}
         </div>
