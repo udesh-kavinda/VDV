@@ -87,7 +87,7 @@ export default function EditDocumentPage({ params }: { params: Promise<{ id: str
     setNewFiles([])
   }
 
-  async function handleSubmit(data: { type: DocumentType; label?: string; expires_at: string; notes?: string }) {
+  async function handleSubmit(data: { type: DocumentType; label?: string; expires_at: string | null; notes?: string }) {
     await supabase.from('documents').update(data).eq('id', id)
     await uploadNewFiles()
     const back = doc?.vehicle_id ? `/vehicles/${doc.vehicle_id}` : '/dashboard'
