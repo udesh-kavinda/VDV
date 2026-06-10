@@ -1,5 +1,6 @@
 import { getVehicles } from '@/lib/vehicles'
 import { Fab } from '@/components/fab'
+import { InstallBanner } from '@/components/install-banner'
 import { getDocuments, getUserDocuments } from '@/lib/documents'
 import { getLinks } from '@/lib/links'
 import { VehicleCard } from '@/components/vehicle-card'
@@ -34,6 +35,7 @@ export default async function DashboardPage() {
       </div>
 
       {/* Alert banner */}
+      <InstallBanner />
       <AlertBanner documents={allDocsForBanner} />
       <PushPrompt />
 
